@@ -7,6 +7,9 @@ using System;
 
 public class MouseLook : MonoBehaviour
 {
+
+    [SerializeField] private float minRot;
+    [SerializeField] private float maxRot;
     public float mouseSensitivity;
 
     public Transform playerBody;
@@ -20,7 +23,7 @@ public class MouseLook : MonoBehaviour
         float MouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         xRotation -= MouseY;
-        xRotation = Mathf.Clamp(xRotation, -5f, 26f);
+        xRotation = Mathf.Clamp(xRotation, minRot, maxRot);
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * MouseX);
