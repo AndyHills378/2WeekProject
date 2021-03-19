@@ -73,7 +73,6 @@ public class CheckTerrainTexture : MonoBehaviour
             textureValues[0] = aMap[0, 0, 0];
             textureValues[1] = aMap[0, 0, 1];
             textureValues[2] = aMap[0, 0, 2];
-            Debug.Log(textureValues[0]);
         }
 
     }
