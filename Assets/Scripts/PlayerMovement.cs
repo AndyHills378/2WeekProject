@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
     private bool isGrounded;
     private Animator animator;
+    public bool isWalking;
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        
 
         if (isGrounded && velocity.y < 0)
         {
@@ -46,10 +48,14 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
+        
+
         animator.SetFloat("Horizontal", x);
         animator.SetFloat("Vertical", z);
 
         Vector3 move = transform.right * x + transform.forward * z;
+
+        isWalking = !Mathf.Approximately(move.x, move.z);
 
         controller.Move(move * speed * Time.deltaTime);
 
