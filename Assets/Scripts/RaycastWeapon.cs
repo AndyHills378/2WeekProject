@@ -19,6 +19,8 @@ public class RaycastWeapon : MonoBehaviour
     [SerializeField] private float bulletDrop;
     [SerializeField] private float shotDelay;
     [SerializeField] private Transform shotMiss;
+    [SerializeField] private AudioClip gunShot;
+    private AudioSource audioSource;
     public ParticleSystem muzzleFlash;
     public ParticleSystem wallHitEffect;
     public TrailRenderer tracerEffect;
@@ -31,6 +33,11 @@ public class RaycastWeapon : MonoBehaviour
     float accumulatedTime;
     List<Bullet> bullets = new List<Bullet>();
     float maxLifeTime = 3f;
+
+    private void Awake()
+    {
+        audioSource = GetComponentInChildren<AudioSource>();
+    }
 
     private Vector3 GetPosition(Bullet bullet)
     {
@@ -63,6 +70,7 @@ public class RaycastWeapon : MonoBehaviour
     {
         canShoot = false;
         muzzleFlash.Emit(1);
+        audioSource.PlayOneShot(gunShot, .5f);
         Vector3 velocity = (raycastDestination.position - raycastOrigin.position).normalized * bulletSpeed;
         var bullet = CreateBullet(raycastOrigin.position, velocity);
         bullets.Add(bullet);
