@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 055a008913c41468a8c1420d0bc72a54
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Vacer Serif Personal
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 03e384def42eb41b38d80e7163fa5505, type: 3}
+  - {fileID: 12800000, guid: 52e0c3e3b0e094c558b0479d18e7218e, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
