@@ -19676,7 +19676,7 @@ GameObject:
   - component: {fileID: 1139987490022482454}
   - component: {fileID: 1139987490022482449}
   m_Layer: 0
-  m_Name: FPSController
+  m_Name: Mike Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19788,6 +19788,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 1
   isWalking: 0
+  isSprinting: 0
 --- !u!114 &1139987490022482446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19804,6 +19805,7 @@ MonoBehaviour:
   mainCamera: {fileID: 1139987491492588364}
   ARCameraPosition: {fileID: 1139987491202304988}
   mainCameraOriginal: {fileID: 1139987491337178480}
+  playerAiming: 0
 --- !u!82 &1139987490022482455
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20578,6 +20580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1139987490593782259}
   - component: {fileID: 1139987490593782258}
+  - component: {fileID: 209463489890406860}
   m_Layer: 0
   m_Name: AR15 Gun
   m_TagString: Untagged
@@ -20631,6 +20634,20 @@ MonoBehaviour:
   raycastDestination: {fileID: 1139987491717799372}
   magazine: {fileID: 7363604935113561904}
   ammoInClipText: {fileID: 0}
+--- !u!114 &209463489890406860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139987490593782256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed2e443a2b452374cba8e26aeb1b540c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 1139987491492588364}
+  verticalRecoil: 0.1
 --- !u!1 &1139987490622670683
 GameObject:
   m_ObjectHideFlags: 0
@@ -21131,6 +21148,8 @@ MonoBehaviour:
   maxRot: 55
   mouseSensitivity: 100
   playerBody: {fileID: 1139987490022482442}
+  xRotation: 0
+  recoil: 0
 --- !u!1 &1139987491613272254
 GameObject:
   m_ObjectHideFlags: 0

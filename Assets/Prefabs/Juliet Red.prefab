@@ -12540,7 +12540,7 @@ GameObject:
   - component: {fileID: 6678795796201664710}
   - component: {fileID: 6678795796201664705}
   m_Layer: 0
-  m_Name: FPSController
+  m_Name: Juliet Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12652,6 +12652,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 1
   isWalking: 0
+  isSprinting: 0
 --- !u!114 &6678795796201664734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12668,6 +12669,7 @@ MonoBehaviour:
   mainCamera: {fileID: 6678795797646604700}
   ARCameraPosition: {fileID: 6678795797365365004}
   mainCameraOriginal: {fileID: 6678795797500239776}
+  playerAiming: 0
 --- !u!82 &6678795796201664711
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13442,6 +13444,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6678795796771384099}
   - component: {fileID: 6678795796771384098}
+  - component: {fileID: 893187278605759653}
   m_Layer: 0
   m_Name: AR15 Gun
   m_TagString: Untagged
@@ -13495,6 +13498,20 @@ MonoBehaviour:
   raycastDestination: {fileID: 6678795797895532316}
   magazine: {fileID: 3840746250661316064}
   ammoInClipText: {fileID: 0}
+--- !u!114 &893187278605759653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6678795796771384096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed2e443a2b452374cba8e26aeb1b540c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 6678795797646604700}
+  verticalRecoil: 0.1
 --- !u!1 &6678795796774720907
 GameObject:
   m_ObjectHideFlags: 0
@@ -13995,6 +14012,8 @@ MonoBehaviour:
   maxRot: 55
   mouseSensitivity: 100
   playerBody: {fileID: 6678795796201664730}
+  xRotation: 0
+  recoil: 0
 --- !u!1 &6678795797895532317
 GameObject:
   m_ObjectHideFlags: 0

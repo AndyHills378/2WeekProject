@@ -15,10 +15,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravity;
     [SerializeField] private float jumpHeight;
 
+    private CharacterAiming characterAiming;
     private Vector3 velocity;
     private bool isGrounded;
     private Animator animator;
     public bool isWalking;
+    public bool isSprinting;
 
     private void Awake()
     {
@@ -32,23 +34,34 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         GetComponentInChildren<MouseLook>().enabled = true;
         controller.GetComponent<CharacterController>().enabled = true;
+        characterAiming = GetComponent<CharacterAiming>();
         animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        
+        float x;
+        float z;
 
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        x = Input.GetAxis("Horizontal");
+        z = Input.GetAxis("Vertical");
 
-        
+        if (Input.GetButton("Sprint"))
+        {
+            x = Input.GetAxis("Horizontal") * 1.5f;
+            z = Input.GetAxis("Vertical") * 1.5f;
+        }
+        if (characterAiming.playerAiming)
+        {
+            x = Input.GetAxis("Horizontal") * .5f;
+            z = Input.GetAxis("Vertical") * .5f;
+        }
 
         animator.SetFloat("Horizontal", x);
         animator.SetFloat("Vertical", z);

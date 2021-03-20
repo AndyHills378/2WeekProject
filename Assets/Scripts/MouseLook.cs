@@ -14,7 +14,8 @@ public class MouseLook : MonoBehaviour
 
     public Transform playerBody;
     
-    private float xRotation = 0f;
+    public float xRotation = 0f;
+    public float recoil;
 
     // Update is called once per frame
     void Update()
@@ -22,7 +23,7 @@ public class MouseLook : MonoBehaviour
         float MouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float MouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        xRotation -= MouseY;
+        xRotation -= MouseY + recoil;
         xRotation = Mathf.Clamp(xRotation, minRot, maxRot);
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);

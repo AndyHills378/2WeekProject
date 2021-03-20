@@ -29097,6 +29097,7 @@ GameObject:
   m_Component:
   - component: {fileID: 494657684200079875}
   - component: {fileID: 494657684200079874}
+  - component: {fileID: 3735282679216844011}
   m_Layer: 0
   m_Name: AR15 Gun
   m_TagString: Untagged
@@ -29150,6 +29151,20 @@ MonoBehaviour:
   raycastDestination: {fileID: 494657685357635132}
   magazine: {fileID: 8016314645265722560}
   ammoInClipText: {fileID: 0}
+--- !u!114 &3735282679216844011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494657684200079872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed2e443a2b452374cba8e26aeb1b540c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 494657685671579836}
+  verticalRecoil: 0.1
 --- !u!1 &494657684262812843
 GameObject:
   m_ObjectHideFlags: 0
@@ -29979,7 +29994,7 @@ GameObject:
   - component: {fileID: 494657685241666022}
   - component: {fileID: 494657685241666017}
   m_Layer: 0
-  m_Name: Delta 1
+  m_Name: Delta Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30091,6 +30106,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 1
   isWalking: 0
+  isSprinting: 0
 --- !u!114 &494657685241666046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30107,6 +30123,7 @@ MonoBehaviour:
   mainCamera: {fileID: 494657685671579836}
   ARCameraPosition: {fileID: 494657685884661804}
   mainCameraOriginal: {fileID: 494657686019274368}
+  playerAiming: 0
 --- !u!82 &494657685241666023
 AudioSource:
   m_ObjectHideFlags: 0
@@ -30547,6 +30564,8 @@ MonoBehaviour:
   maxRot: 55
   mouseSensitivity: 100
   playerBody: {fileID: 494657685241666042}
+  xRotation: 0
+  recoil: 0
 --- !u!1 &494657685884661804
 GameObject:
   m_ObjectHideFlags: 0

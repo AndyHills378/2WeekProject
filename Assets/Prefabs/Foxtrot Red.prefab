@@ -32191,7 +32191,7 @@ GameObject:
   - component: {fileID: 6905600570204617545}
   - component: {fileID: 6905600570204617550}
   m_Layer: 0
-  m_Name: FPSController
+  m_Name: Foxtrot Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32303,6 +32303,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 1
   isWalking: 0
+  isSprinting: 0
 --- !u!114 &6905600570204617553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32319,6 +32320,7 @@ MonoBehaviour:
   mainCamera: {fileID: 6905600571922182675}
   ARCameraPosition: {fileID: 6905600571104465539}
   mainCameraOriginal: {fileID: 6905600570969592879}
+  playerAiming: 0
 --- !u!82 &6905600570204617544
 AudioSource:
   m_ObjectHideFlags: 0
@@ -32495,6 +32497,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6905600570641424556}
   - component: {fileID: 6905600570641424557}
+  - component: {fileID: 8393406362716824183}
   m_Layer: 0
   m_Name: AR15 Gun
   m_TagString: Untagged
@@ -32548,6 +32551,20 @@ MonoBehaviour:
   raycastDestination: {fileID: 6905600571631223955}
   magazine: {fileID: 3906683664815869551}
   ammoInClipText: {fileID: 0}
+--- !u!114 &8393406362716824183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905600570641424559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed2e443a2b452374cba8e26aeb1b540c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 6905600571922182675}
+  verticalRecoil: 0.1
 --- !u!1 &6905600570646470148
 GameObject:
   m_ObjectHideFlags: 0
@@ -33686,6 +33703,8 @@ MonoBehaviour:
   maxRot: 55
   mouseSensitivity: 100
   playerBody: {fileID: 6905600570204617557}
+  xRotation: 0
+  recoil: 0
 --- !u!1 &7047844253437137342
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ public class RaycastWeapon : MonoBehaviour
     public bool isFiring = false;
     public bool canShoot = true;
 
+    private WeaponRecoil WeaponRecoil;
     private AudioSource audioSource;
     public ParticleSystem muzzleFlash;
     public ParticleSystem wallHitEffect;
@@ -41,6 +42,7 @@ public class RaycastWeapon : MonoBehaviour
 
     private void Awake()
     {
+        WeaponRecoil = GetComponent<WeaponRecoil>();
         audioSource = GetComponentInChildren<AudioSource>();
     }
 
@@ -92,6 +94,7 @@ public class RaycastWeapon : MonoBehaviour
         canShoot = false;
         muzzleFlash.Emit(1);
         audioSource.PlayOneShot(gunShot, .5f);
+        WeaponRecoil.GenerateRecoil();
         Vector3 velocity = (raycastDestination.position - raycastOrigin.position).normalized * bulletSpeed;
         var bullet = CreateBullet(raycastOrigin.position, velocity);
         bullets.Add(bullet);

@@ -32880,6 +32880,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8340615271374980189}
   - component: {fileID: 8340615271374980188}
+  - component: {fileID: 982580033005902723}
   m_Layer: 0
   m_Name: AR15 Gun
   m_TagString: Untagged
@@ -32933,6 +32934,20 @@ MonoBehaviour:
   raycastDestination: {fileID: 8340615272532566114}
   magazine: {fileID: 1899703615501363870}
   ammoInClipText: {fileID: 0}
+--- !u!114 &982580033005902723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8340615271374980190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed2e443a2b452374cba8e26aeb1b540c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 8340615272230016738}
+  verticalRecoil: 0.1
 --- !u!1 &8340615271544250273
 GameObject:
   m_ObjectHideFlags: 0
@@ -32952,7 +32967,7 @@ GameObject:
   - component: {fileID: 8340615271544250296}
   - component: {fileID: 8340615271544250303}
   m_Layer: 0
-  m_Name: FPSController
+  m_Name: Oscar Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33064,6 +33079,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 1
   isWalking: 0
+  isSprinting: 0
 --- !u!114 &8340615271544250272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33080,6 +33096,7 @@ MonoBehaviour:
   mainCamera: {fileID: 8340615272230016738}
   ARCameraPosition: {fileID: 8340615273048094322}
   mainCameraOriginal: {fileID: 8340615272913219806}
+  playerAiming: 0
 --- !u!82 &8340615271544250297
 AudioSource:
   m_ObjectHideFlags: 0
@@ -33632,6 +33649,8 @@ MonoBehaviour:
   maxRot: 55
   mouseSensitivity: 100
   playerBody: {fileID: 8340615271544250276}
+  xRotation: 0
+  recoil: 0
 --- !u!1 &8340615272282489497
 GameObject:
   m_ObjectHideFlags: 0

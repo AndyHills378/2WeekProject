@@ -10,15 +10,15 @@ public class CharacterAiming : MonoBehaviour
     [SerializeField] private GameObject ARCameraPosition;
     [SerializeField] private GameObject mainCameraOriginal;
 
+    private MouseLook weaponRecoil;
     private float aimDuration = .3f;
     RaycastWeapon weapon;
     private bool weaponExists;
-    GameObject arTempCamera;
+    public bool playerAiming;
 
     void Start()
     {
-        //arTempCamera = Instantiate(mainCamera, mainCamera.transform.position, mainCamera.transform.rotation);
-        //arTempCamera.SetActive(false);
+        weaponRecoil = GetComponentInChildren<MouseLook>();
         weapon = GetComponentInChildren<RaycastWeapon>();
         if(weapon != null)
         {
@@ -38,15 +38,13 @@ public class CharacterAiming : MonoBehaviour
                 {
                     aimLayer.weight += Time.deltaTime / aimDuration;
                     mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, ARCameraPosition.transform.position, .8f);
-                    //mainCamera.SetActive(false);
-                    //mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, ARCameraPosition.transform.position, .8f);
+                    playerAiming = true;
                 }
                 else
                 {
                     aimLayer.weight -= Time.deltaTime / aimDuration;
                     mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, mainCameraOriginal.transform.position, .8f);
-                    //Destroy(arTempCamera);
-                    //mainCamera.transform.position = Vector3.Lerp(ARCameraPosition.transform.position, startingPosition, .8f);
+                    playerAiming = false;
                 }
                 if (Input.GetButton("Fire1"))
                 {
@@ -54,6 +52,7 @@ public class CharacterAiming : MonoBehaviour
                 }
                 if (Input.GetButtonUp("Fire1"))
                 {
+                    weaponRecoil.recoil = 0;
                     weapon.StopFiring();
                 }
             }

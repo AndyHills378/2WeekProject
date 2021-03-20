@@ -11584,7 +11584,7 @@ GameObject:
   - component: {fileID: 4403831149655941787}
   - component: {fileID: 4403831149655941788}
   m_Layer: 0
-  m_Name: Bravo 1
+  m_Name: Bravo Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11696,6 +11696,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 1
   isWalking: 0
+  isSprinting: 0
 --- !u!114 &4403831149655941763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11712,6 +11713,7 @@ MonoBehaviour:
   mainCamera: {fileID: 4403831151163796417}
   ARCameraPosition: {fileID: 4403831150303742801}
   mainCameraOriginal: {fileID: 4403831150438354429}
+  playerAiming: 0
 --- !u!82 &4403831149655941786
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11854,6 +11856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4403831149690632574}
   - component: {fileID: 4403831149690632575}
+  - component: {fileID: 7123974732969099201}
   m_Layer: 0
   m_Name: AR15 Gun
   m_TagString: Untagged
@@ -11907,6 +11910,20 @@ MonoBehaviour:
   raycastDestination: {fileID: 4403831150848335169}
   magazine: {fileID: 6124691124568643517}
   ammoInClipText: {fileID: 0}
+--- !u!114 &7123974732969099201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4403831149690632573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed2e443a2b452374cba8e26aeb1b540c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 4403831151163796417}
+  verticalRecoil: 0.1
 --- !u!1 &4403831149752944598
 GameObject:
   m_ObjectHideFlags: 0
@@ -13079,6 +13096,8 @@ MonoBehaviour:
   maxRot: 55
   mouseSensitivity: 100
   playerBody: {fileID: 4403831149655941767}
+  xRotation: 0
+  recoil: 0
 --- !u!1 &4477273336004438668
 GameObject:
   m_ObjectHideFlags: 0
