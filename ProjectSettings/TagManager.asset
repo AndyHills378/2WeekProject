@@ -16,8 +16,8 @@ TagManager:
   - MiniMap
   - Gun
   - Player
-  - 
-  - 
+  - FriendlyPlayer
+  - EnemyPlayer
   - 
   - 
   - 
