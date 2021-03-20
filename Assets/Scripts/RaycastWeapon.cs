@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class RaycastWeapon : MonoBehaviour
 {
@@ -12,21 +13,25 @@ public class RaycastWeapon : MonoBehaviour
         public TrailRenderer tracer;
     }
 
-    public bool isFiring = false;
-    private bool canShoot = true;
-    //[SerializeField] private float fireRate;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float bulletDrop;
     [SerializeField] private float shotDelay;
     [SerializeField] private Transform shotMiss;
     [SerializeField] private AudioClip gunShot;
+
+    public int ammoCount;
+    public int clipSize;
+    public bool isFiring = false;
+    public bool canShoot = true;
+
     private AudioSource audioSource;
     public ParticleSystem muzzleFlash;
     public ParticleSystem wallHitEffect;
     public TrailRenderer tracerEffect;
     public Transform raycastOrigin;
     public Transform raycastDestination;
-
+    public GameObject magazine;
+    public TextMeshProUGUI ammoInClipText;
 
     Ray ray;
     RaycastHit hitInfo;
@@ -57,17 +62,33 @@ public class RaycastWeapon : MonoBehaviour
         return bullet;
     }
 
+    public void Update()
+    {
+        if(ammoCount == 0)
+        {
+            ammoInClipText.text = "30";
+        }
+        else
+        {
+            ammoInClipText.text = ammoCount.ToString();
+        }
+    }
+
     public void StartFiring()
     {
         isFiring = true;
-        if (canShoot)
-        {
-            FireBullet();
-        }
+        FireBullet();
     }
 
     private void FireBullet()
     {
+        if (ammoCount <= 0 || !canShoot)
+        {
+            return;
+        }
+
+        ammoCount--;
+
         canShoot = false;
         muzzleFlash.Emit(1);
         audioSource.PlayOneShot(gunShot, .5f);
