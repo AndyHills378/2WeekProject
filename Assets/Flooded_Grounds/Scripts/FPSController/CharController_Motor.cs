@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CharController_Motor : MonoBehaviour {
 
-	public float speed = 10.0f;
-	public float sensitivity = 30.0f;
-	public float WaterHeight = 15.5f;
+	[SerializeField] private float speed;
+	[SerializeField] private float sensitivity = 30.0f;
+	[SerializeField] private float WaterHeight = 15.5f;
 	CharacterController character;
-	public GameObject cam;
-	float moveFB, moveLR;
+	Animator anim;
+	[SerializeField] private GameObject cam;
+	Vector2 input;
 	float rotX, rotY;
 	public bool webGLRightClickRotation = true;
 	float gravity = -9.8f;
@@ -18,6 +19,7 @@ public class CharController_Motor : MonoBehaviour {
 	void Start(){
 		//LockCursor ();
 		character = GetComponent<CharacterController> ();
+		anim = GetComponentInChildren<Animator>();
 		if (Application.isEditor) {
 			webGLRightClickRotation = false;
 			sensitivity = sensitivity * 1.5f;
@@ -36,8 +38,11 @@ public class CharController_Motor : MonoBehaviour {
 
 
 	void Update(){
-		moveFB = Input.GetAxis ("Horizontal") * speed;
-		moveLR = Input.GetAxis ("Vertical") * speed;
+
+		input.x = Input.GetAxis("Horizontal") * speed;
+		input.y = Input.GetAxis("Vertical") * speed;
+		anim.SetFloat("Horizontal", input.x);
+		anim.SetFloat("Vertical", input.y);
 
 		rotX = Input.GetAxis ("Mouse X") * sensitivity;
 		rotY = Input.GetAxis ("Mouse Y") * sensitivity;
@@ -47,10 +52,7 @@ public class CharController_Motor : MonoBehaviour {
 
 		CheckForWaterHeight ();
 
-
-		Vector3 movement = new Vector3 (moveFB, gravity, moveLR);
-
-
+		Vector3 movement = new Vector3 (input.x, gravity, input.y);
 
 		if (webGLRightClickRotation) {
 			if (Input.GetKey (KeyCode.Mouse0)) {
