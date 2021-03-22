@@ -5,6 +5,7 @@ using UnityEngine;
 public class AnimatorFunctions : MonoBehaviour
 {
     [SerializeField] private MenuButtonController menuButtonController;
+    [SerializeField] private AudioSource controller;
 
     public bool disableOnce;
 
@@ -12,7 +13,14 @@ public class AnimatorFunctions : MonoBehaviour
     {
         if(!disableOnce)
         {
-            menuButtonController.audioSource.PlayOneShot(sound);
+            if (menuButtonController)
+            {
+                menuButtonController.audioSource.PlayOneShot(sound);
+            }
+            else if (controller)
+            {
+                controller.PlayOneShot(sound);
+            }
         }
         else
         {

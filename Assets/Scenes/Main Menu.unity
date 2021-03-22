@@ -12310,9 +12310,17 @@ PrefabInstance:
       propertyPath: menuButtonController
       value: 
       objectReference: {fileID: 1759552049}
+    - target: {fileID: 3556676096898377410, guid: 49b7400b6941a134d9d8304a6b4c676e, type: 3}
+      propertyPath: m_Name
+      value: Multiplayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3556676096898377420, guid: 49b7400b6941a134d9d8304a6b4c676e, type: 3}
+      propertyPath: m_Text
+      value: MULTIPLAYER
+      objectReference: {fileID: 0}
     - target: {fileID: 4775846099130921707, guid: 49b7400b6941a134d9d8304a6b4c676e, type: 3}
       propertyPath: m_Name
-      value: Start Menu Btn
+      value: Multiplayer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49b7400b6941a134d9d8304a6b4c676e, type: 3}

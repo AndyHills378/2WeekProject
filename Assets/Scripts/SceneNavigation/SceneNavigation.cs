@@ -11,7 +11,7 @@ public class SceneNavigation : MonoBehaviour
     }
     public void StartGame()
     {
-        SceneManager.LoadScene("FloodedGrounds");
+        SceneManager.LoadScene("MultiplayerLobby");
     }
     public void Settings()
     {
