@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuButtonControler : MonoBehaviour
+public class MenuButtonController : MonoBehaviour
 {
     [SerializeField] private bool keyDown;
     [SerializeField] private int maxIndex;
-
     public int index;
     public AudioSource audioSource;
 
@@ -24,7 +23,7 @@ public class MenuButtonControler : MonoBehaviour
             {
                 if(Input.GetAxis("Vertical") < 0)
                 {
-                    if(index < maxIndex)
+                    if (index < maxIndex)
                     {
                         index++;
                     }

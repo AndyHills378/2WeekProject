@@ -4,5 +4,20 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: 567c832f176c74196904b187c2827f2f
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: fc9dea6e9c6b01841963244c5c8458cb
+  - enabled: 1
+    path: Assets/Scenes/Controls.unity
+    guid: b612d38da37f6a749a0136c588335272
+  - enabled: 1
+    path: Assets/Scenes/GameDescription.unity
+    guid: f3f24bbbfbc69f948ad1a73b35d6a544
+  - enabled: 1
+    path: Assets/Scenes/FloodedGrounds.unity
+    guid: c0d944ca9defd20449bc336e50d75a08
   m_configObjects: {}
