@@ -1,9 +1,10 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public class RaycastWeapon : MonoBehaviour
+public class RaycastWeapon : NetworkBehaviour
 {
     class Bullet
     {
@@ -12,12 +13,18 @@ public class RaycastWeapon : MonoBehaviour
         public Vector3 initialVelocity;
         public TrailRenderer tracer;
     }
-
+    [Header("References")]
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float bulletDrop;
     [SerializeField] private float shotDelay;
     [SerializeField] private Transform shotMiss;
     [SerializeField] private AudioClip gunShot;
+    [SerializeField] private GameObject player;
+
+    [Header("Settings")]
+    [SerializeField] private float maxRange; // Gun Shooting range
+    float maxLifeTime = 4f;
+
 
     public int ammoCount;
     public int clipSize;
@@ -36,21 +43,21 @@ public class RaycastWeapon : MonoBehaviour
 
     Ray ray;
     RaycastHit hitInfo;
-    float accumulatedTime;
     List<Bullet> bullets = new List<Bullet>();
-    float maxLifeTime = 3f;
 
+    [ClientCallback]
     private void Awake()
     {
         WeaponRecoil = GetComponent<WeaponRecoil>();
         audioSource = GetComponentInChildren<AudioSource>();
     }
 
+    [Client]
     private Vector3 GetPosition(Bullet bullet)
     {
         // p + v*t + 0.5*g*t^2
         Vector3 gravity = Vector3.down * bulletDrop;
-        return (bullet.initialPosition)+ (bullet.initialVelocity * bullet.time) + (0.5f * gravity * bullet.time * bullet.time);
+        return (bullet.initialPosition) + (bullet.initialVelocity * bullet.time) + (0.5f * gravity * bullet.time * bullet.time);
     }
 
     Bullet CreateBullet(Vector3 position, Vector3 velocity)
@@ -64,9 +71,27 @@ public class RaycastWeapon : MonoBehaviour
         return bullet;
     }
 
+    public override void OnStartAuthority()
+    {
+        enabled = true;
+    }
+
+    [ClientCallback]
+    // Update is called once per frame
     public void Update()
     {
-        if(ammoCount == 0)
+        UpdateBullet(Time.deltaTime);
+
+        if (Input.GetButton("Fire1"))
+        {
+            StartFiring();
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            StopFiring();
+        }
+
+        if (ammoCount == 0)
         {
             ammoInClipText.text = "30";
         }
@@ -76,12 +101,21 @@ public class RaycastWeapon : MonoBehaviour
         }
     }
 
+    [Client]
     public void StartFiring()
     {
         isFiring = true;
         FireBullet();
     }
 
+    [Client]
+    public void StopFiring()
+    {
+        WeaponRecoil.StopRecoil();
+        isFiring = false;
+    }
+
+    [Client]
     private void FireBullet()
     {
         if (ammoCount <= 0 || !canShoot)
@@ -101,13 +135,15 @@ public class RaycastWeapon : MonoBehaviour
         StartCoroutine(ShootDelay());
     }
 
-    public void UpdateBullet(float deltaTime)
+    [Client]
+    private void UpdateBullet(float deltaTime)
     {
         SimulateBullets(deltaTime);
         DestroyBullets();
     }
 
-    void SimulateBullets(float deltaTime)
+    [Client]
+    private void SimulateBullets(float deltaTime)
     {
         bullets.ForEach(bullet =>
         {
@@ -117,21 +153,24 @@ public class RaycastWeapon : MonoBehaviour
             RaycastSegment(p0, p1, bullet);
         });
     }
+
+    [Client]
     void DestroyBullets()
     {
         bullets.RemoveAll(bullet=>bullet.time >= maxLifeTime);
     }
 
+    [Client]
     void RaycastSegment(Vector3 start, Vector3 end, Bullet bullet)
     {
         Vector3 direction = end - start;
-        float distance = (end - start).magnitude;
         ray.origin = start;
         ray.direction = direction;
-        if (Physics.Raycast(ray, out hitInfo, distance))
+        if (Physics.Raycast(ray, out hitInfo, maxRange))
         {
             wallHitEffect.transform.position = hitInfo.point;
             wallHitEffect.transform.forward = hitInfo.normal;
+            Debug.Log("deal damage here");
             wallHitEffect.Emit(1);
 
             bullet.tracer.transform.position = hitInfo.point;
@@ -144,11 +183,7 @@ public class RaycastWeapon : MonoBehaviour
         }
     }
 
-    public void StopFiring()
-    {
-        isFiring = false;
-    }
-
+    [Client]
     IEnumerator ShootDelay()
     {
         yield return new WaitForSeconds(shotDelay);

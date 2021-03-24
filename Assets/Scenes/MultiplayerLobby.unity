@@ -2075,7 +2075,7 @@ GameObject:
   - component: {fileID: 932073354}
   m_Layer: 0
   m_Name: NetworkManager
-  m_TagString: Untagged
+  m_TagString: NetworkManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2110,8 +2110,9 @@ MonoBehaviour:
   playerPrefab: {fileID: 5584367227266224785, guid: 12e48827cc63acb45b9df1b2f4a5e83d, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs: []
-  minPlayers: 2
+  spawnPrefabs:
+  - {fileID: 8216821606230976488, guid: 603f377900e97734aac9d9ba2dc1e9d1, type: 3}
+  minPlayers: 1
   menuScene: Assets/Scenes/MultiplayerLobby.unity
   roomPlayerPrefab: {fileID: 5655594259674418855, guid: 0417247f42e52e04bba1b7c9c05d71c5, type: 3}
   gamePlayerPrefab: {fileID: 3438741443646195041, guid: c3213ec9f47014240b647ffb2a81624b, type: 3}

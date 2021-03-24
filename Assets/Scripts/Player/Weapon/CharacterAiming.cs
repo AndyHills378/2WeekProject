@@ -2,36 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using Mirror;
 
-public class CharacterAiming : MonoBehaviour
+public class CharacterAiming : NetworkBehaviour
 {
     [SerializeField] private Rig aimLayer;
-    [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject ARCameraPosition;
     [SerializeField] private GameObject mainCameraOriginal;
 
+    private Camera mainCamera;
     private MouseLook weaponRecoil;
     private float aimDuration = .3f;
     RaycastWeapon weapon;
     private bool weaponExists;
     public bool playerAiming;
 
-    void Start()
-    {
-        weaponRecoil = GetComponentInChildren<MouseLook>();
-        weapon = GetComponentInChildren<RaycastWeapon>();
-        if(weapon != null)
-        {
-            weaponExists = true;
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
+    [Client]
+    private void Aiming()
     {
         if (weaponExists)
         {
-            weapon.UpdateBullet(Time.deltaTime);
             if (aimLayer)
             {
                 if (Input.GetButton("Fire2"))
@@ -46,16 +36,30 @@ public class CharacterAiming : MonoBehaviour
                     mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, mainCameraOriginal.transform.position, .8f);
                     playerAiming = false;
                 }
-                if (Input.GetButton("Fire1"))
-                {
-                    weapon.StartFiring();
-                }
-                if (Input.GetButtonUp("Fire1"))
-                {
-                    weaponRecoil.recoil = 0;
-                    weapon.StopFiring();
-                }
             }
         }
+    }
+
+    [ClientCallback]
+    public void Start()
+    {
+        mainCamera = GetComponent<PlayerMovement>().mainCamera;
+        weaponRecoil = GetComponentInChildren<MouseLook>();
+        weapon = GetComponentInChildren<RaycastWeapon>();
+        if (weapon != null)
+        {
+            weaponExists = true;
+        }
+    }
+
+    public override void OnStartAuthority()
+    {
+        enabled = true;
+    }
+
+    [ClientCallback]
+    void Update()
+    {
+        Aiming();
     }
 }

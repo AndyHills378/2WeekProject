@@ -4,41 +4,46 @@ using UnityEngine;
 using System;
 using Mirror;
 
-// TODO: Disable on 2d Minigames
-
 public class MouseLook : NetworkBehaviour
 {
+    [Header("Networking")]
+    [HideInInspector] public Transform playerBody;
 
-    //[Header("Networking")]
-    //[SerializeField] private Camera mainCamera = null;
-
+    [Header("Camera")]
+    [SerializeField] private Camera miniMapCamera;
     [SerializeField] private float minRot;
     [SerializeField] private float maxRot;
     public float mouseSensitivity;
+    private float xRotation = 0f;
 
-    public Transform playerBody;
-    
-    public float xRotation = 0f;
-    public float recoil;
+    [HideInInspector] public float recoil = 0;
 
-    /*public override void OnStartAuthority()
+    [Client]
+    private void CmdMovement()
     {
-        mainCamera.gameObject.SetActive(true);
+        if (playerBody != null)
+        {
+            float MouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+            float MouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        enabled = true;
+            xRotation -= MouseY + recoil;
+            xRotation = Mathf.Clamp(xRotation, minRot, maxRot);
+
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerBody.Rotate(Vector3.up * MouseX);
+        }
     }
 
-    [ClientCallback]*/
-    // Update is called once per frame
+    [ClientCallback]
     void Update()
     {
-        float MouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float MouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-
-        xRotation -= MouseY + recoil;
-        xRotation = Mathf.Clamp(xRotation, minRot, maxRot);
-
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerBody.Rotate(Vector3.up * MouseX);
+        if(playerBody.GetComponent<PlayerMovement>().hasAuthority)
+        {
+            enabled = true;
+            this.GetComponent<Camera>().enabled = true;
+            this.GetComponent<AudioListener>().enabled = true;
+            miniMapCamera.GetComponent<Camera>().enabled = true;
+            CmdMovement();
+        }
     }
 }

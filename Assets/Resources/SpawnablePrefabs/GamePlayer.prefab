@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3438741443646195041}
   m_Layer: 0
   m_Name: GamePlayer
-  m_TagString: Untagged
+  m_TagString: GamePlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,3 +63,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  displayName: Loading...
+  playerScore: 0
+  playerKills: 0
+  playerDeaths: 0
+  playerAssists: 0

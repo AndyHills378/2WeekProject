@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class CheckTerrainTexture : MonoBehaviour
+public class CheckTerrainTexture : NetworkBehaviour
 {
 
     [SerializeField] private Transform playerTransform;
@@ -19,9 +20,14 @@ public class CheckTerrainTexture : MonoBehaviour
     private int posZ;
     public float[] textureValues;
 
-
     AudioClip previousClip;
 
+    public override void OnStartAuthority()
+    {
+        enabled = true;
+    }
+
+    [ClientCallback]
     void Start()
     {
         terrain = Terrain.activeTerrain;
@@ -31,7 +37,9 @@ public class CheckTerrainTexture : MonoBehaviour
         terrain.terrainData.SyncTexture(TerrainData.AlphamapTextureName);
     }
 
-    void Update()
+    [ClientCallback]
+    // Update is called once per frame
+    public void Update()
     {
         // For better performance, move this out of update 
         // and only call it when you need a footstep.
@@ -42,12 +50,14 @@ public class CheckTerrainTexture : MonoBehaviour
 
     }
 
+    [Client]
     public void GetTerrainTexture()
     {
         ConvertPosition(playerTransform.position);
         CheckTexture();
     }
 
+    [Client]
     void ConvertPosition(Vector3 playerPosition)
     {
         Vector3 terrainPosition = playerPosition - terrain.transform.position;
@@ -63,6 +73,7 @@ public class CheckTerrainTexture : MonoBehaviour
         posZ = (int)zCoord;
     }
 
+    [Client]
     void CheckTexture()
     {
         float[,,] aMap = terrain.terrainData.GetAlphamaps(posX, posZ, 1, 1);
@@ -76,6 +87,8 @@ public class CheckTerrainTexture : MonoBehaviour
         }
 
     }
+
+    [Client]
     public void PlayFootstep()
     {
         GetTerrainTexture();
@@ -100,6 +113,7 @@ public class CheckTerrainTexture : MonoBehaviour
         }
     }
 
+    [Client]
     AudioClip GetClip(AudioClip[] clipArray)
     {
         int attempts = 3;

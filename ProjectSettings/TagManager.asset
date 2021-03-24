@@ -5,6 +5,20 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Blue Team
+  - Red Team
+  - TabScoreboard
+  - InGameCanvas
+  - GameManager
+  - ServerCanvas
+  - Name
+  - Score
+  - Kills
+  - Deaths
+  - Assists
+  - Position
+  - NetworkManager
+  - GamePlayer
   layers:
   - Default
   - TransparentFX

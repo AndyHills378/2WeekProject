@@ -10,7 +10,15 @@ public class NetworkGamePlayerLobby : NetworkBehaviour
 {
 
     [SyncVar]
-    private string displayName = "Loading...";
+    public string displayName = "Loading...";
+    [SyncVar]
+    public int playerScore = 0;
+    [SyncVar]
+    public int playerKills = 0;
+    [SyncVar]
+    public int playerDeaths = 0;
+    [SyncVar]
+    public int playerAssists = 0;
 
     private NetworkManagerLobby room;
     private NetworkManagerLobby Room

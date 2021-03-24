@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class NetworkManagerLobby : NetworkManager
 {
-    [SerializeField] private int minPlayers = 2; 
+    [SerializeField] private int minPlayers; 
     [Scene] [SerializeField] private string menuScene = string.Empty;
 
     [Header("Room")]
@@ -107,7 +107,6 @@ public class NetworkManagerLobby : NetworkManager
 
         foreach (var player in RoomPlayers)
         {
-            Debug.Log(player.IsReady);
             if(!player.IsReady) { return false; }
         }
 
@@ -134,6 +133,7 @@ public class NetworkManagerLobby : NetworkManager
                 var gameplayerInstance = Instantiate(gamePlayerPrefab);
                 gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
 
+                GamePlayers.Add(gameplayerInstance);
                 NetworkServer.Destroy(conn.identity.gameObject);
                 NetworkServer.ReplacePlayerForConnection(conn, gameplayerInstance.gameObject);
             }
