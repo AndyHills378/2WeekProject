@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3556676096898377423}
   - component: {fileID: 3556676096898377420}
   m_Layer: 5
-  m_Name: Start Match
+  m_Name: Multiplayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: START MATCH
+  m_Text: PLAY
 --- !u!1 &4775846099130921707
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 2467341722973541094}
   - component: {fileID: 1120712045850859356}
   m_Layer: 5
-  m_Name: Start Menu Btn
+  m_Name: MenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 0}
+  controller: {fileID: 0}
   disableOnce: 0
 --- !u!114 &2467341722973541094
 MonoBehaviour:
@@ -273,7 +274,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 5}
-  m_SizeDelta: {x: 900, y: 200}
+  m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3447925489735510725
 CanvasRenderer:
