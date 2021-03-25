@@ -20858,7 +20858,7 @@ MonoBehaviour:
   shotMiss: {fileID: 8651520781087625795}
   gunShot: {fileID: 8300000, guid: 6b185008fd05a4e4eb0979d2c9ff5047, type: 3}
   player: {fileID: 8651520781680193470}
-  maxRange: 0
+  maxRange: 50
   ammoCount: 30
   clipSize: 30
   isFiring: 0
