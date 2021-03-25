@@ -1,6 +1,7 @@
 using Mirror;
 using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,7 +16,7 @@ public class NetworkManagerLobby : NetworkManager
 
     [Header("Game")]
     [SerializeField] private NetworkGamePlayerLobby gamePlayerPrefab = null;
-    [SerializeField] private GameObject playerSpawnSystem = null;
+    public GameObject playerSpawnSystem = null;
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
@@ -66,9 +67,10 @@ public class NetworkManagerLobby : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
-        if(SceneManager.GetActiveScene().path == menuScene)
+        if (SceneManager.GetActiveScene().path == menuScene)
         {
             bool isLeader = RoomPlayers.Count == 0;
+
             NetworkRoomPlayerLobby roomPlayerInstance = Instantiate(roomPlayerPrefab);
 
             roomPlayerInstance.IsLeader = isLeader;
@@ -76,6 +78,7 @@ public class NetworkManagerLobby : NetworkManager
             NetworkServer.AddPlayerForConnection(conn, roomPlayerInstance.gameObject);
         }
     }
+
     public override void OnServerDisconnect(NetworkConnection conn)
     {
         if (conn.identity != null)

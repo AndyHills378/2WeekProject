@@ -23,6 +23,13 @@ public class PlayerScoreManager : NetworkBehaviour
     [SerializeField] private TMP_Text[] playerAssists;
     [SerializeField] private GameObject scoreboardCanvas;
 
+    [Header("Personal Scoreboard")]
+    [SerializeField] private TMP_Text personalPosition;
+    [SerializeField] private TMP_Text personalScore;
+    [SerializeField] private TMP_Text personalKills;
+    [SerializeField] private TMP_Text personalDeaths;
+    [SerializeField] private TMP_Text personalAssists;
+
     [HideInInspector] public NetworkManagerLobby networkManager;
     [HideInInspector] public GameObject[] allPlayers;
 
@@ -73,6 +80,17 @@ public class PlayerScoreManager : NetworkBehaviour
             playerDeaths[i].SetText(allPlayerScoreCards[i].PlayerDeaths.ToString());
             playerAssists[i].SetText(allPlayerScoreCards[i].PlayerAssists.ToString());
         }
+
+        /*for (int i = 0; i < allPlayerScoreCards.Count; i++)
+        {
+            if(allPlayerScoreCards[i].PlayerScore < allPlayerScoreCards[i + 1].PlayerScore)
+            {
+                List<AllPlayerScores> temp = new List<AllPlayerScores>();
+                temp[i] = allPlayerScoreCards[i];
+                allPlayerScoreCards[i] = allPlayerScoreCards[i + 1];
+                allPlayerScoreCards[i + 1] = temp[i];
+            }
+        }*/
     }
 
     [Client]
@@ -87,6 +105,23 @@ public class PlayerScoreManager : NetworkBehaviour
         scoreboardCanvas.SetActive(false);
     }
 
+    [Client]
+    public void UpdatePersonalScoreboard()
+    {
+        
+        for(int i = 0; i < allPlayerScoreCards.Count; i++)
+        {
+            if(hasAuthority)
+            {
+                personalPosition.SetText((i+1).ToString());
+                personalScore.SetText(allPlayerScoreCards[i].PlayerScore.ToString());
+                personalKills.SetText(allPlayerScoreCards[i].PlayerKills.ToString());
+                personalDeaths.SetText(allPlayerScoreCards[i].PlayerDeaths.ToString());
+                personalAssists.SetText(allPlayerScoreCards[i].PlayerAssists.ToString());
+            }
+        }
+    }
+
     [ClientCallback]
     private void Update()
     {
@@ -96,6 +131,8 @@ public class PlayerScoreManager : NetworkBehaviour
         }
 
         CmdUpdateScoreBoard();
+        UpdatePersonalScoreboard();
+
         if (Input.GetButton("Tab"))
         {
             ShowScoreboard();

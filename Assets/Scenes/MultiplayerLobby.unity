@@ -2107,11 +2107,13 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 5584367227266224785, guid: 12e48827cc63acb45b9df1b2f4a5e83d, type: 3}
+  playerPrefab: {fileID: 4082801396357273078, guid: 8c95da1e87967b7478381ef15a30c2a7, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 8216821606230976488, guid: 603f377900e97734aac9d9ba2dc1e9d1, type: 3}
+  - {fileID: 1024154076526008551, guid: d9e7acab23594df488c27763ac26839a, type: 3}
+  - {fileID: 8651520781680193470, guid: 0115cb289df344245ac02b80a6088451, type: 3}
   minPlayers: 1
   menuScene: Assets/Scenes/MultiplayerLobby.unity
   roomPlayerPrefab: {fileID: 5655594259674418855, guid: 0417247f42e52e04bba1b7c9c05d71c5, type: 3}

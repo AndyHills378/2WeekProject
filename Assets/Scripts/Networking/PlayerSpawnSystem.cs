@@ -2,10 +2,11 @@ using Mirror;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public class PlayerSpawnSystem : NetworkBehaviour
 {
-    [SerializeField] private GameObject playerPrefab = null;
+    [SerializeField] private GameObject[] playerPrefab = null;
 
     private static List<Transform> spawnPoints = new List<Transform>();
 
@@ -36,8 +37,9 @@ public class PlayerSpawnSystem : NetworkBehaviour
             return;
         }
 
-        GameObject playerInstance = Instantiate(playerPrefab, spawnPoints[nextIndex].position, spawnPoints[nextIndex].rotation);
+        GameObject playerInstance = Instantiate(playerPrefab[nextIndex], spawnPoints[nextIndex].position, spawnPoints[nextIndex].rotation);
         NetworkServer.Spawn(playerInstance, conn);
-        nextIndex++;
+        nextIndex = (nextIndex + 1) % playerPrefab.Length;
+
     }
 }
