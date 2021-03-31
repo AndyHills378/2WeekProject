@@ -20,17 +20,6 @@ public class RaycastWeapon : NetworkBehaviour
     [SerializeField] private Transform shotMiss;
     [SerializeField] private AudioClip gunShot;
     [SerializeField] private GameObject player;
-
-    [Header("Settings")]
-    [SerializeField] private float maxRange; // Gun Shooting range
-    float maxLifeTime = 4f;
-
-
-    public int ammoCount;
-    public int clipSize;
-    public bool isFiring = false;
-    public bool canShoot = true;
-
     private WeaponRecoil WeaponRecoil;
     private AudioSource audioSource;
     public ParticleSystem muzzleFlash;
@@ -40,6 +29,18 @@ public class RaycastWeapon : NetworkBehaviour
     public Transform raycastDestination;
     public GameObject magazine;
     public TextMeshProUGUI ammoInClipText;
+
+    [Header("Settings")]
+    [SerializeField] private float maxRange; // Gun Shooting range
+    [SerializeField] private int minDamage;
+    [SerializeField] private int maxDamage;
+    float maxLifeTime = 4f;
+    public int ammoCount;
+    public int clipSize;
+    [HideInInspector] public bool isFiring = false;
+    [HideInInspector] public bool canShoot = true;
+
+
 
     Ray ray;
     RaycastHit hitInfo;
@@ -105,7 +106,7 @@ public class RaycastWeapon : NetworkBehaviour
     public void StartFiring()
     {
         isFiring = true;
-        FireBullet();
+        Shoot();
     }
 
     [Client]
@@ -115,24 +116,36 @@ public class RaycastWeapon : NetworkBehaviour
         isFiring = false;
     }
 
+    [Command]
+    private void CmdShoot()
+    {
+        RpcDoShootEffects();
+    }
+
+    [ClientRpc]
+    public void RpcDoShootEffects()
+    {
+        muzzleFlash.Emit(1);
+        audioSource.PlayOneShot(gunShot, .5f);
+    }
+
     [Client]
-    private void FireBullet()
+    private void Shoot()
     {
         if (ammoCount <= 0 || !canShoot)
         {
             return;
         }
-
+        CmdShoot();
         ammoCount--;
 
         canShoot = false;
-        muzzleFlash.Emit(1);
-        audioSource.PlayOneShot(gunShot, .5f);
         WeaponRecoil.GenerateRecoil();
         Vector3 velocity = (raycastDestination.position - raycastOrigin.position).normalized * bulletSpeed;
         var bullet = CreateBullet(raycastOrigin.position, velocity);
         bullets.Add(bullet);
         StartCoroutine(ShootDelay());
+
     }
 
     [Client]
@@ -170,11 +183,21 @@ public class RaycastWeapon : NetworkBehaviour
         {
             wallHitEffect.transform.position = hitInfo.point;
             wallHitEffect.transform.forward = hitInfo.normal;
-            Debug.Log("deal damage here");
             wallHitEffect.Emit(1);
 
             bullet.tracer.transform.position = hitInfo.point;
             bullet.time = maxLifeTime;
+
+            if ((hitInfo.collider.gameObject.tag == "Blue Team" || hitInfo.collider.gameObject.tag == "Red Team") && hitInfo.collider.gameObject.tag != this.gameObject.tag)
+            {
+                int damage = Random.Range(minDamage, maxDamage);
+                int hitNetworkID = hitInfo.collider.gameObject.GetComponent<PlayerManager>().networkId;
+                if (hitInfo.collider.gameObject.GetComponent<PlayerManager>().AdjustHealth(damage))
+                {
+                    GetComponent<PlayerManager>().AdjustKills();
+                    hitInfo.collider.gameObject.GetComponent<PlayerManager>().AdjustDeaths();
+                }
+            }
         }
         else
         {

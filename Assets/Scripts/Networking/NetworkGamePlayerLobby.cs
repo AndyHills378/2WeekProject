@@ -12,13 +12,17 @@ public class NetworkGamePlayerLobby : NetworkBehaviour
     [SyncVar]
     public string displayName = "Loading...";
     [SyncVar]
-    public int playerScore = 0;
+    public int playerScore;
     [SyncVar]
-    public int playerKills = 0;
+    public int playerKills;
     [SyncVar]
-    public int playerDeaths = 0;
+    public int playerDeaths;
     [SyncVar]
-    public int playerAssists = 0;
+    public int playerAssists;
+    [SyncVar]
+    public int playerHealth;
+    [SyncVar]
+    public int playerID;
 
     private NetworkManagerLobby room;
     private NetworkManagerLobby Room
@@ -33,7 +37,12 @@ public class NetworkGamePlayerLobby : NetworkBehaviour
     public override void OnStartClient()
     {
         DontDestroyOnLoad(gameObject);
-
+        this.playerID = connectionToClient.connectionId;
+        this.playerScore = 0;
+        this.playerKills = 0;
+        this.playerDeaths = 0;
+        this.playerAssists = 0;
+        this.playerHealth = 100;
         Room.GamePlayers.Add(this);
     }
 

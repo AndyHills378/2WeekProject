@@ -2102,7 +2102,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: Assets/Scenes/MultiplayerLobby.unity
   transport: {fileID: 932073354}
-  networkAddress: localhost
+  networkAddress: 127.0.0.1
   maxConnections: 10
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -2114,7 +2114,7 @@ MonoBehaviour:
   - {fileID: 8216821606230976488, guid: 603f377900e97734aac9d9ba2dc1e9d1, type: 3}
   - {fileID: 1024154076526008551, guid: d9e7acab23594df488c27763ac26839a, type: 3}
   - {fileID: 8651520781680193470, guid: 0115cb289df344245ac02b80a6088451, type: 3}
-  minPlayers: 1
+  minPlayers: 2
   menuScene: Assets/Scenes/MultiplayerLobby.unity
   roomPlayerPrefab: {fileID: 5655594259674418855, guid: 0417247f42e52e04bba1b7c9c05d71c5, type: 3}
   gamePlayerPrefab: {fileID: 3438741443646195041, guid: c3213ec9f47014240b647ffb2a81624b, type: 3}

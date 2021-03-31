@@ -12,6 +12,16 @@ public class PlayerSpawnSystem : NetworkBehaviour
 
     private int nextIndex = 0;
 
+    private NetworkManagerLobby room;
+    private NetworkManagerLobby Room
+    {
+        get
+        {
+            if (room != null) { return room; }
+            return room = NetworkManager.singleton as NetworkManagerLobby;
+        }
+    }
+
     public static void AddSpawnPoint(Transform transform)
     {
         spawnPoints.Add(transform);
@@ -22,6 +32,34 @@ public class PlayerSpawnSystem : NetworkBehaviour
     public static void RemoveSpawnPoint(Transform transform) => spawnPoints.Remove(transform);
 
     public override void OnStartServer() => NetworkManagerLobby.OnServerReadied += SpawnPlayer;
+
+    public void OnPlayerKilled(GameObject player, string tag, NetworkConnection conn) => RespawnPlayer(player, tag, conn);
+
+    [Server]
+    public void RespawnPlayer(GameObject player, string tag, NetworkConnection conn)
+    {
+        if (spawnPoints[nextIndex].tag == tag)
+        {
+            player.transform.position = spawnPoints[nextIndex].transform.position;
+            player.transform.rotation = spawnPoints[nextIndex].transform.rotation;
+            conn.identity.gameObject.GetComponent<NetworkGamePlayerLobby>().playerHealth = 100;
+            player.GetComponent<PlayerManager>().playerDead = false;
+            RpcRespawnPlayer(player);
+        }
+        else
+        {
+            nextIndex = (nextIndex + 1) % spawnPoints.Count;
+            RespawnPlayer(player, tag, conn);
+        }
+    }
+
+    [ClientRpc]
+    public void RpcRespawnPlayer(GameObject player)
+    {
+        player.transform.position = spawnPoints[nextIndex].transform.position;
+        player.transform.rotation = spawnPoints[nextIndex].transform.rotation;
+        player.GetComponent<PlayerManager>().playerDead = false;
+    }
 
     [ServerCallback]
     private void OnDestroy() => NetworkManagerLobby.OnServerReadied -= SpawnPlayer;

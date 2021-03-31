@@ -12,13 +12,16 @@ TagManager:
   - GameManager
   - ServerCanvas
   - Name
-  - Score
-  - Kills
-  - Deaths
-  - Assists
-  - Position
   - NetworkManager
   - GamePlayer
+  - Assists
+  - Kills
+  - Score
+  - Deaths
+  - Position
+  - BlueSpawn
+  - RedSpawn
+  - SpawnSystem
   layers:
   - Default
   - TransparentFX

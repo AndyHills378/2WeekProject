@@ -180,14 +180,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'This game is the creation of Andrew Hills and Patrick Mcvroom done in
-    a two week period. Used as a showcase and learning experience for us both as
-    recent graduates.
-
-
-    We decided to create a Team-based FPS game because we
-    felt that that is the best way to showcase as much of our knowledge as possible
-    and learn as much as possible from the project itself.'
+  m_text: "As this release is pretty much a pre-alpha version please acknowledge
+    there will be many bugs, some known, some unknown. If you happen to find any
+    bugs that aren't listed below please get in contact so that we are aware of them.\nKnown:\n-
+    Buttons in multiplayer lobby require the user to hold, drag mouse off button
+    and release to work.\n- No current way to close down server unless entire game
+    is closed down.\n- No current way to leave server unless entire game is closed
+    down.\n- Red team slider does not function correctly (value does so game doesn't
+    break).\n- Settings page does not exist in this version.\n- Bullet raycasts cannot
+    be seen across the network.\nSetup:\n- To host to a game, please make sure that
+    the port 7777 is portforwarded. \n- To connect to a game, the host searches \"whats
+    my ip\" and the clients type that into the relevant field."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 47b6ef46924c292428ed0109d082f8f0, type: 2}
   m_sharedMaterial: {fileID: -3328025329788183812, guid: 47b6ef46924c292428ed0109d082f8f0, type: 2}
@@ -214,11 +217,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 7
-  m_fontSizeBase: 7
+  m_fontSize: 4.5
+  m_fontSizeBase: 5
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 2
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1

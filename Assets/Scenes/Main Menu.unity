@@ -12201,6 +12201,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Description
       objectReference: {fileID: 0}
+    - target: {fileID: 6473558456001551656, guid: 381566c0578c7b546bb7016325b09ba9, type: 3}
+      propertyPath: m_Text
+      value: PLEASE READ
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533593187543322021, guid: 381566c0578c7b546bb7016325b09ba9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 8111151968115036657, guid: 381566c0578c7b546bb7016325b09ba9, type: 3}
       propertyPath: menuButtonController
       value: 

@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using Mirror;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PlayerScoreManager : NetworkBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerScoreManager : NetworkBehaviour
         public int PlayerKills;
         public int PlayerDeaths;
         public int PlayerAssists;
+        public int playerId;
     }
 
     [Header("References")]
@@ -30,37 +32,58 @@ public class PlayerScoreManager : NetworkBehaviour
     [SerializeField] private TMP_Text personalDeaths;
     [SerializeField] private TMP_Text personalAssists;
 
+    [Header("Team Score")]
+    [SerializeField] private Slider blueTeamSlider;
+    [SerializeField] private Slider redTeamSlider;
+    [SerializeField] private TMP_Text blueTeamSliderText;
+    [SerializeField] private TMP_Text redTeamSliderText;
+    [SerializeField] private GameObject endGameCanvas;
+    [SerializeField] private TMP_Text endGameText;
+
+    [Header("Settings")]
+    private int maxScore = 30;
+
     [HideInInspector] public NetworkManagerLobby networkManager;
     [HideInInspector] public GameObject[] allPlayers;
-
-    public SyncList<AllPlayerScores> allPlayerScoreCards = new SyncList<AllPlayerScores>();
 
     [ClientCallback]
     public void Start()
     {
         networkManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManagerLobby>();
         allPlayers = GameObject.FindGameObjectsWithTag("GamePlayer");
-        for(int i = 0; i < allPlayers.Length; i++)
+        blueTeamSlider.value = 0;
+        redTeamSlider.value = 0;
+    }
+
+    [Client]
+    public void UpdateTeamSliders(string team)
+    {
+        CmdUpdateTeamSliders(team);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdUpdateTeamSliders(string team)
+    {
+        RpcUpdateTeamSliders(team);
+    }
+    [ClientRpc]
+    public void RpcUpdateTeamSliders(string team)
+    {
+        if (team == "Blue Team")
         {
-            AllPlayerScores playerScore = new AllPlayerScores();
-            playerScore.PlayerName = allPlayers[i].GetComponent<NetworkGamePlayerLobby>().displayName;
-            playerScore.PlayerScore = allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerScore;
-            playerScore.PlayerKills = allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerKills;
-            playerScore.PlayerDeaths = allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerDeaths;
-            playerScore.PlayerAssists = allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerAssists;
-            CmdAddToScoreboard(playerScore);
+            blueTeamSlider.value++;
+            blueTeamSliderText.SetText(blueTeamSlider.value.ToString());
+        }
+        if (team == "Red Team")
+        {
+            redTeamSlider.value++;
+            redTeamSliderText.SetText(redTeamSlider.value.ToString());
         }
     }
 
     public override void OnStartAuthority()
     {
         enabled = true;
-    }
-
-    [Command]
-    public void CmdAddToScoreboard(AllPlayerScores playerScore)
-    {
-        allPlayerScoreCards.Add(playerScore);
     }
 
     [Command]
@@ -72,25 +95,14 @@ public class PlayerScoreManager : NetworkBehaviour
     [ClientRpc]
     public void RpcUpdateScoreBoard()
     {
-        for (int i = 0; i < allPlayerScoreCards.Count; i++)
+        for (int i = 0; i < allPlayers.Length; i++) //display scoreboard
         {
-            playerNames[i].SetText(allPlayerScoreCards[i].PlayerName);
-            playerScores[i].SetText(allPlayerScoreCards[i].PlayerScore.ToString());
-            playerKills[i].SetText(allPlayerScoreCards[i].PlayerKills.ToString());
-            playerDeaths[i].SetText(allPlayerScoreCards[i].PlayerDeaths.ToString());
-            playerAssists[i].SetText(allPlayerScoreCards[i].PlayerAssists.ToString());
+            playerNames[i].SetText(allPlayers[i].GetComponent<NetworkGamePlayerLobby>().displayName);
+            playerScores[i].SetText(allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerScore.ToString());
+            playerKills[i].SetText(allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerKills.ToString());
+            playerDeaths[i].SetText(allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerDeaths.ToString());
+            playerAssists[i].SetText(allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerAssists.ToString());
         }
-
-        /*for (int i = 0; i < allPlayerScoreCards.Count; i++)
-        {
-            if(allPlayerScoreCards[i].PlayerScore < allPlayerScoreCards[i + 1].PlayerScore)
-            {
-                List<AllPlayerScores> temp = new List<AllPlayerScores>();
-                temp[i] = allPlayerScoreCards[i];
-                allPlayerScoreCards[i] = allPlayerScoreCards[i + 1];
-                allPlayerScoreCards[i + 1] = temp[i];
-            }
-        }*/
     }
 
     [Client]
@@ -109,15 +121,15 @@ public class PlayerScoreManager : NetworkBehaviour
     public void UpdatePersonalScoreboard()
     {
         
-        for(int i = 0; i < allPlayerScoreCards.Count; i++)
+        for(int i = 0; i < allPlayers.Length; i++)
         {
-            if(hasAuthority)
+            if(allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerID == GetComponent<PlayerManager>().networkId)
             {
-                personalPosition.SetText((i+1).ToString());
-                personalScore.SetText(allPlayerScoreCards[i].PlayerScore.ToString());
-                personalKills.SetText(allPlayerScoreCards[i].PlayerKills.ToString());
-                personalDeaths.SetText(allPlayerScoreCards[i].PlayerDeaths.ToString());
-                personalAssists.SetText(allPlayerScoreCards[i].PlayerAssists.ToString());
+                personalPosition.SetText(i.ToString());
+                personalScore.SetText(allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerScore.ToString());
+                personalKills.SetText(allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerKills.ToString());
+                personalDeaths.SetText(allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerDeaths.ToString());
+                personalAssists.SetText(allPlayers[i].GetComponent<NetworkGamePlayerLobby>().playerAssists.ToString());
             }
         }
     }
@@ -125,7 +137,7 @@ public class PlayerScoreManager : NetworkBehaviour
     [ClientCallback]
     private void Update()
     {
-        for(int i = 0; i < allPlayerScoreCards.Count; i++)
+        for(int i = 0; i < allPlayers.Length; i++)
         {
             playerScoreCards[i].SetActive(true);
         }
@@ -141,5 +153,37 @@ public class PlayerScoreManager : NetworkBehaviour
         {
             HideScoreboard();
         }
+
+        if(blueTeamSlider.value >= maxScore)
+        {
+            CmdEndgame("Blue");
+        }
+        if(redTeamSlider.value >= maxScore)
+        {
+            CmdEndgame("Red");
+        }
+    }
+
+    [Command]
+    public void CmdEndgame(string team)
+    {
+        RpcEndgame(team);
+    }
+    [ClientRpc]
+    public void RpcEndgame(string team)
+    {
+        if (team == "Blue")
+        {
+            endGameCanvas.SetActive(true);
+            endGameText.SetText("Blue Team Wins!");
+
+        }
+        if (team == "Red")
+        {
+            endGameCanvas.SetActive(true);
+            endGameText.SetText("Red Team Wins!");
+        }
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }
